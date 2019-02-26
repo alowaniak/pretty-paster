@@ -3,3 +3,5 @@
 !/
 # Also don't ignore ".gitignore" for obvious reasons
 !.gitignore
+
+!README.md
