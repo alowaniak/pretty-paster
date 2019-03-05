@@ -1,7 +1,7 @@
 # Ignore everything, but whitelist sub folders themselves so "not ignoring" works "recursively"
 *
 !/
-# Also don't ignore ".gitignore" for obvious reasons
-!.gitignore
+
+!.gitignore # Also don't ignore ".gitignore" for obvious reasons
 
 !README.md
