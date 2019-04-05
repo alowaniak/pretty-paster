@@ -2,9 +2,21 @@
 *
 
 # Whitelist sub folders themselves to make whitelisting work recursively
-!/
+!*/
 
 # Whitelist ".gitignore" otherwise it would obviously not get committed
 !.gitignore 
 
 !README.md
+
+# Consider everything in 'src' relevant, perhaps alter if it contains e.g. generated sources
+!/src/**
+
+# Allow build specification
+!build.gradle.kts
+!settings.gradle.kts
+
+# Allow gradle wrapper
+!gradle/wrapper/**
+!gradlew
+!gradlew.bat
