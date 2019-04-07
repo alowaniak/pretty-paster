@@ -11,6 +11,7 @@
 
 # Consider everything in 'src' relevant, perhaps alter if it contains e.g. generated sources
 !/src/**
+!/test/**
 
 # Allow build specification
 !build.gradle.kts

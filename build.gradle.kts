@@ -21,9 +21,22 @@ sourceSets {
 			setSrcDirs(listOf("src"))
 		}
 	}
+	test {
+		java {
+			setSrcDirs(listOf("test"))
+		}
+	}
+}
+
+tasks.named<Test>("test") {
+	useJUnitPlatform()
 }
 
 repositories {
 	jcenter()
 }
 
+dependencies {
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.1.0")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.1.0")
+}
