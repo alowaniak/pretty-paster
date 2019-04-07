@@ -1,5 +1,7 @@
 package prettypaster;
 
+import prettypaster.xml.XmlPrettifier;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -24,7 +26,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class PrettyPaster implements AutoCloseable {
 
 	public static void main(String[] args) {
-		throw new UnsupportedOperationException("TODO implement");
+		new PrettyPaster(new XmlPrettifier());
 	}
 
 	private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
