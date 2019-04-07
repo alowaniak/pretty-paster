@@ -45,7 +45,7 @@ public class PrettyPaster implements AutoCloseable {
 	}
 
 	private void pollClipboardAndPrettify() {
-		try {
+		try (var ignoreNeedlessPrintsByLibraryCode = new OutAndErrIgnorer()) {
 			var content = (String) clipboard.getData(DataFlavor.stringFlavor);
 			prettifier.prettify(content).ifPresent(this::setNewContent);
 		} catch (UnsupportedFlavorException | IOException | IllegalStateException e) {

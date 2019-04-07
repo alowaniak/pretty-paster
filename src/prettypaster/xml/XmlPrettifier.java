@@ -1,6 +1,7 @@
 package prettypaster.xml;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import prettypaster.Prettifier;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * Prettifies xml by placing newlines after tags and indenting 2 spaces.
@@ -61,6 +63,7 @@ public class XmlPrettifier implements Prettifier {
     }
 
     private String asPrettyString(Document doc) {
+        recursivelyRemoveEmptyWhitespace(doc);
         doc.normalizeDocument();
 
         try (var sw = new StringWriter()) {
@@ -70,4 +73,19 @@ public class XmlPrettifier implements Prettifier {
             return null; // Unable to pretty print the xml, not much we can do
         }
     }
+
+    private static void recursivelyRemoveEmptyWhitespace(Node node) {
+        if (node.getNodeType() == Node.TEXT_NODE) removeEmptyWhitespaceFrom(node);
+
+        var children = node.getChildNodes();
+        IntStream.range(0, children.getLength())
+                .mapToObj(children::item)
+                .forEach(XmlPrettifier::recursivelyRemoveEmptyWhitespace);
+    }
+
+    private static void removeEmptyWhitespaceFrom(Node node) {
+        var trimmedContent = node.getTextContent().trim();
+        if (trimmedContent.length() == 0) node.setTextContent(trimmedContent);
+    }
+
 }

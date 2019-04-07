@@ -3,7 +3,6 @@ package prettypaster.xml;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,6 +31,26 @@ class XmlPrettifierTest {
                         "  </foobar>",
                         "</xml>",
                         ""));
+    }
+
+    @Test void removesWhitespace() {
+        expect(
+                newLined(
+                        "       <xml>",
+                        "  ",
+                        "      <foobar> ",
+                        "   <test>    hi   </test></foobar>   ",
+                        "",
+                        "</xml>"),
+                newLined(
+                        "<xml>",
+                        "  <foobar>",
+                        "    <test>    hi   </test>",
+                        "  </foobar>",
+                        "</xml>",
+                        ""
+                )
+        );
     }
 
     private String newLined(String... lines) {
