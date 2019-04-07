@@ -7,9 +7,9 @@ Thus it will be formatted/decoded when you paste it (`ctrl+v` on windows).
 
 ### Base 64
 Checks if content is _relatively likely_ to be base64 encoded, and if so decodes it.  
-Considers content to be _likely_ base64 if it 
+Considers content to be _likely_ base64 if it
+ - Has a length of at least 50 characters 
  - Only contains base64 characters (obviously)
- - Has a length of at least 50 characters
  - Is valid/mappable UTF-8 when decoded
 
 ### Xml

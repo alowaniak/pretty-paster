@@ -57,7 +57,7 @@ class PrettyPasterTest {
         var clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(new StringSelection(expectedIn), null);
         try (var x = new PrettyPaster(spy)) {
-            Thread.sleep(1);
+            Thread.sleep(2);
         }
 
         assertEquals(expectedIn, spy.actualIn);
