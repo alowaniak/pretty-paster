@@ -11,6 +11,9 @@ import java.util.Optional;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * "Prettifies" base64 by decoding it.
+ */
 public class Base64Prettifier implements Prettifier {
 
     private final Base64.Decoder b64Decoder = Base64.getDecoder();
