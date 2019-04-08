@@ -1,5 +1,6 @@
 package prettypaster;
 
+import prettypaster.base64.Base64Prettifier;
 import prettypaster.xml.XmlPrettifier;
 
 import java.awt.*;
@@ -26,7 +27,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class PrettyPaster implements AutoCloseable {
 
 	public static void main(String[] args) {
-		new PrettyPaster(new XmlPrettifier());
+		new PrettyPaster(Prettifier.chainable(new Base64Prettifier(), new XmlPrettifier()));
 	}
 
 	private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
