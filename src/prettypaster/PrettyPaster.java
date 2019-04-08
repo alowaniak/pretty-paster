@@ -9,6 +9,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +25,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  *
  * The polling happens in {@link Executors#newSingleThreadScheduledExecutor() it's  own Thread}.
  * The {@link PrettyPaster} is {@link AutoCloseable} but note that {@link #close() closing} waits for task shutdown.
+ *
+ * NOTE: Some libraries used in polling (and prettifying) write needless output to stdOut/stdErr.
+ * To suppress this the {@link System#out} and {@link System#err} are redirected to nothing while polling/prettifying.
  */
 public class PrettyPaster implements AutoCloseable {
 
@@ -46,13 +51,25 @@ public class PrettyPaster implements AutoCloseable {
 	}
 
 	private void pollClipboardAndPrettify() {
-		try (OutAndErrIgnorer ignoreNeedlessPrintsByLibraryCode = new OutAndErrIgnorer()) {
-			String content = (String) clipboard.getData(DataFlavor.stringFlavor);
-			prettifier.prettify(content).ifPresent(this::setNewContent);
-		} catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
-			// Clipboard unavailable or data can't be retrieved (as String), not much we can do
-		}
+        PrintStream originalOut = System.out;
+        PrintStream originalErr = System.err;
+        PrintStream dummyStream = new PrintStream(new OutputStream() { public void write(int b) { /* sink */ } });
+        System.setOut(dummyStream);
+        System.setErr(dummyStream);
+        try {
+            prettifyClipboardContent();
+        } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
+            // Clipboard unavailable or data can't be retrieved (as String), not much we can do
+        } finally {
+            System.setOut(originalOut);
+            System.setErr(originalErr);
+        }
 	}
+
+	private void prettifyClipboardContent() throws IOException, UnsupportedFlavorException {
+        String clipboardContent = (String) clipboard.getData(DataFlavor.stringFlavor);
+        prettifier.prettify(clipboardContent).ifPresent(this::setNewContent);
+    }
 
 	private void setNewContent(String newContent) {
 		try {

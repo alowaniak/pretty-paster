@@ -14,16 +14,16 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 class PrettyPasterTest {
 
     private final Prettifier prettifierStub = y -> Optional.empty();
 
-    @Test void creation_startsSingleThread_andCanBeStopped() {
+    @Test void creation_startsSingleThread_andCanBeStopped() throws Exception {
         int nrOfThreads = Thread.activeCount();
-        try (var x = new PrettyPaster(prettifierStub)) { // Stopping is tested via AutoClosable
+        try (var stoppingIsTestedViaAutoClosable = new PrettyPaster(prettifierStub)) {
             assertEquals(nrOfThreads + 1, Thread.activeCount());
         }
+        Thread.sleep(2);
         assertEquals(nrOfThreads, Thread.activeCount());
     }
 
