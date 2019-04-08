@@ -29,16 +29,16 @@ class PrettyPasterTest {
     }
 
     @Test void creation_schedulesPollingWith10msFixedDelay() {
-        var scheduledPolling = new AtomicBoolean();
         var executorSpy = new ScheduledThreadPoolExecutor(1) {
+            boolean scheduledCorrectly;
             @Override public ScheduledFuture<?> scheduleWithFixedDelay(Runnable x, long initialDelay, long delay, TimeUnit unit) {
-                scheduledPolling.set(initialDelay == 0 && delay == 10 && unit == TimeUnit.MILLISECONDS);
+                scheduledCorrectly = initialDelay == 0 && delay == 10 && unit == TimeUnit.MILLISECONDS;
                 return null;
             }
         };
 
         try (var x = new PrettyPaster(executorSpy, prettifierStub)) {
-            assertTrue(scheduledPolling.get());
+            assertTrue(executorSpy.scheduledCorrectly);
         }
     }
 

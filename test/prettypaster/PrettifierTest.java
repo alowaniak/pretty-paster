@@ -9,15 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PrettifierTest {
 
-    @Test void emptyChainIsIllegal() {
-        try {
-            var ignored = Prettifier.chainable();
-            fail("Prettifier#chainable without any arguments should fail.");
-        } catch (IllegalArgumentException e) {
-            // success
-        }
-    }
-
     @Test void chainableWithSinglePrettifierDoesntFunctionallyChangeFromSinglePrettifier() {
         var expectedOut = Optional.of(UUID.randomUUID().toString());
 

@@ -1,7 +1,7 @@
 package prettypaster;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 /**
  * A {@link Prettifier} is able to "{@link #prettify(String) prettify}" content.
@@ -9,14 +9,11 @@ import java.util.concurrent.atomic.AtomicReference;
 @FunctionalInterface
 public interface Prettifier {
 
-    static Prettifier chainable(Prettifier... chain) {
-        if(chain.length == 0) throw new IllegalArgumentException();
+    static Prettifier chainable(Prettifier first, Prettifier... rest) {
+        Stream<Prettifier> chain = Stream.concat(Stream.of(first), Stream.of(rest));
         return in -> {
-            var curIn = new AtomicReference<String>();
-            for (Prettifier p : chain) {
-                p.prettify(curIn.get() == null ? in : curIn.get()).ifPresent(curIn::set);
-            }
-            return Optional.ofNullable(curIn.get());
+            String out = chain.reduce(in, (newIn, p) -> p.prettify(newIn).orElse(newIn), (a,b) -> { throw new IllegalStateException("Combining in serial stream.");} );
+            return in.equals(out) ? Optional.empty() : Optional.of(out);
         };
     }
 

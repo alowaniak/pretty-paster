@@ -16,7 +16,7 @@ class OutAndErrIgnorer implements AutoCloseable {
     private final PrintStream originalErr = System.err;
 
     OutAndErrIgnorer() {
-        var dummyStream = new PrintStream(new OutputStream() { public void write(int b) { /* sink the data */ } });
+        PrintStream dummyStream = new PrintStream(new OutputStream() { public void write(int b) { /* sink the data */ } });
         System.setOut(dummyStream);
         System.setErr(dummyStream);
     }
