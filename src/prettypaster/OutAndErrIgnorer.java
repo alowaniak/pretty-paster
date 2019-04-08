@@ -5,7 +5,10 @@ import java.io.PrintStream;
 
 /**
  * A class that can be used to redirect {@link System#out} and {@link System#err} to nothing.
- * Usage as a try-with-resources
+ * <p/>
+ * Usage as a try-with-resources so the redirect will be {@link #close() restored} again.
+ * An {@code ignoreOutAndErr(Callable block)} sort of function might have been neater,
+ * but it's workability gets less when the {@code block} can throw different checked exceptions.
  */
 class OutAndErrIgnorer implements AutoCloseable {
 
