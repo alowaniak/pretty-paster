@@ -7,10 +7,8 @@ plugins {
 }
 
 application {
-	applicationName = "Pretty Paster"
+	applicationName = "PrettyPaster"
 	mainClassName = "prettypaster.PrettyPaster"
-
-	executableDir = ""
 }
 
 java {
