@@ -42,7 +42,7 @@ public class PrettyPaster implements AutoCloseable {
 		this.executor = executor;
 		this.prettifier = prettifier;
 
-		executor.scheduleWithFixedDelay(this::pollClipboardAndPrettify, 0, 10, MILLISECONDS);
+		executor.scheduleWithFixedDelay(this::pollClipboardAndPrettify, 0, 100, MILLISECONDS);
 	}
 
 	private void pollClipboardAndPrettify() {

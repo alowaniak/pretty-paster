@@ -10,7 +10,6 @@ import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,11 +27,11 @@ class PrettyPasterTest {
         assertEquals(nrOfThreads, Thread.activeCount());
     }
 
-    @Test void creation_schedulesPollingWith10msFixedDelay() {
+    @Test void creation_schedulesPollingWith100msFixedDelay() {
         var executorSpy = new ScheduledThreadPoolExecutor(1) {
             boolean scheduledCorrectly;
             @Override public ScheduledFuture<?> scheduleWithFixedDelay(Runnable x, long initialDelay, long delay, TimeUnit unit) {
-                scheduledCorrectly = initialDelay == 0 && delay == 10 && unit == TimeUnit.MILLISECONDS;
+                scheduledCorrectly = initialDelay == 0 && delay == 100 && unit == TimeUnit.MILLISECONDS;
                 return null;
             }
         };
