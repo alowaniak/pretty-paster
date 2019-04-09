@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PrettifierTest {
 
@@ -75,5 +76,14 @@ class PrettifierTest {
 
         Prettifier.chainable(first, second).prettify("");
         assertTrue(second.calledWithFirstsResult);
+    }
+
+    @Test void usingChainMultipleTimesShouldWork() {
+        Prettifier first = s -> Optional.of("  " + s + "  ");
+        Prettifier second = s -> Optional.of(s.stripLeading());
+
+        var chain = Prettifier.chainable(first, second);
+        assertEquals(Optional.of("foo  "), chain.prettify("foo"));
+        assertEquals(Optional.of("foo  "), chain.prettify("foo"));
     }
 }

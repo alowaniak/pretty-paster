@@ -31,6 +31,10 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  */
 public class PrettyPaster implements AutoCloseable {
 
+	private static final PrintStream dummyStream = new PrintStream(new OutputStream() {
+		public void write(int b) { /* sink */ }
+	});
+
 	public static void main(String[] args) {
 		new PrettyPaster(Prettifier.chainable(new Base64Prettifier(), new XmlPrettifier()));
 	}
@@ -53,22 +57,24 @@ public class PrettyPaster implements AutoCloseable {
 	private void pollClipboardAndPrettify() {
         PrintStream originalOut = System.out;
         PrintStream originalErr = System.err;
-        PrintStream dummyStream = new PrintStream(new OutputStream() { public void write(int b) { /* sink */ } });
-        System.setOut(dummyStream);
+		System.setOut(dummyStream);
         System.setErr(dummyStream);
         try {
             prettifyClipboardContent();
-        } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
-            // Clipboard unavailable or data can't be retrieved (as String), not much we can do
         } finally {
-            System.setOut(originalOut);
-            System.setErr(originalErr);
-        }
+			System.setOut(originalOut);
+			System.setErr(originalErr);
+		}
 	}
 
-	private void prettifyClipboardContent() throws IOException, UnsupportedFlavorException {
-        String clipboardContent = (String) clipboard.getData(DataFlavor.stringFlavor);
-        prettifier.prettify(clipboardContent).ifPresent(this::setNewContent);
+	private void prettifyClipboardContent() {
+		String clipboardContent;
+		try {
+			clipboardContent = (String) clipboard.getData(DataFlavor.stringFlavor);
+		} catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
+			return; // Clipboard unavailable or data can't be retrieved (as String), not much we can do
+		}
+    	prettifier.prettify(clipboardContent).ifPresent(this::setNewContent);
     }
 
 	private void setNewContent(String newContent) {

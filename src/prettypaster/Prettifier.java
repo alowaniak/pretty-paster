@@ -1,6 +1,7 @@
 package prettypaster;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 /**
@@ -9,11 +10,11 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface Prettifier {
 
-    static Prettifier chainable(Prettifier first, Prettifier... rest) {
-        Stream<Prettifier> chain = Stream.concat(Stream.of(first), Stream.of(rest));
+    static Prettifier chainable(Prettifier... prettifiers) {
         return in -> {
-            String out = chain.reduce(in, (newIn, p) -> p.prettify(newIn).orElse(newIn), (a,b) -> { throw new IllegalStateException("Combining in serial stream.");} );
-            return in.equals(out) ? Optional.empty() : Optional.of(out);
+            AtomicReference<String> out = new AtomicReference<>();
+            Stream.of(prettifiers).forEach(p -> p.prettify(out.get() == null ? in : out.get()).ifPresent(out::set));
+            return Optional.ofNullable(out.get());
         };
     }
 
