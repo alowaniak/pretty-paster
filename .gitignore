@@ -9,9 +9,12 @@
 
 !README.md
 
-# Consider everything in 'src' relevant, perhaps alter if it contains e.g. generated sources
+# Consider everything in 'src' and 'test' relevant, perhaps alter if it contains e.g. generated sources
 !/src/**
 !/test/**
+
+# Auxiliary files
+!/data/**
 
 # Allow build specification
 !build.gradle.kts
