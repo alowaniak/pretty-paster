@@ -27,7 +27,7 @@ Pretty-prints xml (~~if, God forbid, you have to use it~~) by placing linebreaks
 Pretty-prints json by placing linebreaks after elements and indenting with 2 spaces per level.
 
 ## Installation
-Simply download the "[.zip](https://github.com/alowaniak/pretty-paster/releases/download/v0.1/PrettyPaster-0.1.zip)" or "[.tar](https://github.com/alowaniak/pretty-paster/releases/download/v0.1/PrettyPaster-0.1.tar)" file from the [release page](https://github.com/alowaniak/pretty-paster/releases/tag/v0.1) and extract to a location of your choosing.  
+Simply download the "[.zip](https://github.com/alowaniak/pretty-paster/releases/download/v0.2/PrettyPaster-0.2.zip)" or "[.tar](https://github.com/alowaniak/pretty-paster/releases/download/v0.2/PrettyPaster-0.2.tar)" file from the [release page](https://github.com/alowaniak/pretty-paster//releases/latest) and extract to a location of your choosing.  
 Start PrettyPaster by running one of the startscripts in the "bin" folder.  
 ![Gif showing the aforementioned installation process.](./data/installation.gif)  
 
