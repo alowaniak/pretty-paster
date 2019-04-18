@@ -2,11 +2,10 @@ package prettypaster.xml;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static prettypaster.PrettifierTest.newLined;
 
 class XmlPrettifierTest {
 
@@ -23,14 +22,17 @@ class XmlPrettifierTest {
 
     @Test void formatsXml_with_newLines_and_indenting2Spaces() {
         expect(
-                "<xml><foobar><test>hi</test><test/></foobar></xml>", newLined(
+                "<xml><foobar><test>hi</test><test/></foobar></xml>",
+                newLined(
                         "<xml>",
                         "  <foobar>",
                         "    <test>hi</test>",
                         "    <test/>",
                         "  </foobar>",
                         "</xml>",
-                        ""));
+                        ""
+                )
+        );
     }
 
     @Test void removesWhitespace() {
@@ -51,10 +53,6 @@ class XmlPrettifierTest {
                         ""
                 )
         );
-    }
-
-    private String newLined(String... lines) {
-        return Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator()));
     }
 
     private void expect(String in, String expectation) {

@@ -2,13 +2,19 @@ package prettypaster;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PrettifierTest {
+public class PrettifierTest {
+
+    public static String newLined(String... lines) {
+        return Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator()));
+    }
 
     @Test void chainableWithSinglePrettifierDoesntFunctionallyChangeFromSinglePrettifier() {
         var expectedOut = Optional.of(UUID.randomUUID().toString());

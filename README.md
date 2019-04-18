@@ -23,6 +23,8 @@ Considers content to be _likely_ base64 if it
 ### Xml
 Pretty-prints xml (~~if, God forbid, you have to use it~~) by placing linebreaks after tags and indenting with 2 spaces per level.
 
+### Json
+Pretty-prints json by placing linebreaks after elements and indenting with 2 spaces per level.
 
 ## Installation
 Simply download the "[.zip](https://github.com/alowaniak/pretty-paster/releases/download/v0.1/PrettyPaster-0.1.zip)" or "[.tar](https://github.com/alowaniak/pretty-paster/releases/download/v0.1/PrettyPaster-0.1.tar)" file from the [release page](https://github.com/alowaniak/pretty-paster/releases/tag/v0.1) and extract to a location of your choosing.  
