@@ -1,6 +1,7 @@
 package prettypaster;
 
 import prettypaster.base64.Base64Prettifier;
+import prettypaster.json.JsonPrettifier;
 import prettypaster.xml.XmlPrettifier;
 
 import java.awt.*;
@@ -15,7 +16,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static prettypaster.Prettifier.anyOf;
+import static prettypaster.Prettifier.chain;
 
 /**
  * Pretty "pastes" clipboard content using a {@link Prettifier}.
@@ -36,7 +40,7 @@ public class PrettyPaster implements AutoCloseable {
 	});
 
 	public static void main(String[] args) {
-		new PrettyPaster(Prettifier.chainable(new Base64Prettifier(), new XmlPrettifier()));
+		new PrettyPaster(chain(new Base64Prettifier(), anyOf(new XmlPrettifier(), new JsonPrettifier())));
 	}
 
 	private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -48,8 +52,8 @@ public class PrettyPaster implements AutoCloseable {
 	}
 
 	PrettyPaster(ScheduledExecutorService executor, Prettifier prettifier) {
-		this.executor = executor;
-		this.prettifier = prettifier;
+		this.executor = requireNonNull(executor);
+		this.prettifier = requireNonNull(prettifier);
 
 		executor.scheduleWithFixedDelay(this::pollClipboardAndPrettify, 0, 100, MILLISECONDS);
 	}
