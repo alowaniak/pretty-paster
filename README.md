@@ -1,4 +1,4 @@
-# ![Pretty Paster logo](./data/pretty-paster-logo.png)
+# ![Pretty Paster logo](./data/pretty-paster-logo.png) [![Build Status](https://travis-ci.com/alowaniak/pretty-paster.svg?branch=master)](https://travis-ci.com/alowaniak/pretty-paster)
 A tool to pretty print/decode clipboard content.
 
 ## ToC
